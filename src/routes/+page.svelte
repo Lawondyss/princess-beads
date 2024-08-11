@@ -1,0 +1,14 @@
+<script>
+  import Rules from '@/Rules.svelte'
+  import Card from '@/Card.svelte'
+</script>
+
+<Card style="text-align: center; font-size: var(--text-lg)">
+  <h1>Princeznička na bále...</h1>
+  <p>Však to znáš 😊</p>
+  <p>Takže máš za úkol,<br>všechny je najít.</p>
+</Card>
+
+<Rules/>
+
+<style></style>
