@@ -1,4 +1,5 @@
 <script lang="ts">
+  import {base} from '$app/paths'
   import Game, {Result} from '$lib/game.svelte'
   import Card from '@/Card.svelte'
 
@@ -16,7 +17,7 @@
 
 <Card>
   <h1>{result?.message ?? 'Tady bys neměla být'}</h1>
-  <a href="/game" class="button big">POKRAČUJ V HLEDÁNÍ</a>
+  <a href="{base}/game" class="button big">POKRAČUJ V HLEDÁNÍ</a>
 </Card>
 
 <style></style>

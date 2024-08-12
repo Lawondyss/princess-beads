@@ -1,5 +1,6 @@
 <script lang="ts">
   import jsQR from 'jsqr'
+  import {base} from '$app/paths'
   import {goto} from '$app/navigation'
 
   let loading: boolean = $state(true)
@@ -53,7 +54,7 @@
         const code = jsQR(imgData.data, imgData.width, imgData.height, {inversionAttempts: 'dontInvert'})
 
         if (code) {
-          goto(`/result?code=${code.data.trim()}`)
+          goto(`${base}/result?code=${code.data.trim()}`)
           return
         }
       }

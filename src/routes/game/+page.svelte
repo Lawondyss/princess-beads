@@ -1,4 +1,5 @@
 <script lang="ts">
+  import {base} from '$app/paths'
   import Game from '$lib/game.svelte'
   import Card from '@/Card.svelte'
 
@@ -21,7 +22,7 @@
   {/if}
 </Card>
 
-<a href="/scanner" class="button">OSKENUJ KÓD</a>
+<a href="{base}/scanner" class="button">OSKENUJ KÓD</a>
 
 <style>
   .button {

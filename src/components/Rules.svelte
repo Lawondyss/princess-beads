@@ -1,4 +1,5 @@
 <script lang="ts">
+  import {base} from '$app/paths'
   import Card from '@/Card.svelte'
 </script>
 
@@ -9,7 +10,6 @@
   <p>Po oskenování kódu dostaneš další hádanku.</p>
   <p>Až budeš mít všechny korále, odkryjí Ti místo, kde najdeš poklad.</p>
 </Card>
-<a href="/game" class="big button">začni hledat</a>
+<a href="{base}/game" class="big button">začni hledat</a>
 
-<style>
-</style>
+<style></style>
