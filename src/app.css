@@ -1,10 +1,21 @@
+@font-face {
+    font-family: "Ysabeau Infant";
+    src: url("/YsabeauInfant.ttf") format("truetype");
+}
+@font-face {
+    font-family: Recursive;
+    src: url("/Recursive.ttf") format("truetype");
+}
+
 :root {
-    --font-body: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-body: Recursive, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-headline: "Ysabeau Infant", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --bg-color: #59102a;
     --bg-gradient: conic-gradient(from 0.5turn at left bottom, #ff1493, #663399);
     --surface: #0002;
     --link-color: #f76707;
-    --text-color: #000c;
+    --text-color: #f59f00;
+    --text-xl: 2rem;
     --text-lg: 1.4rem;
     --space-sm: .6rem;
     --space: 1rem;
@@ -33,9 +44,18 @@ body {
 }
 
 h1,
-h2,
-p {
+h2 {
+    font-family: var(--font-headline);
     font-weight: bold;
+    text-align: center;
+}
+
+h1 {
+    font-size: 1.8rem;
+}
+
+h2 {
+    font-size: 1.4rem;
 }
 
 p {
@@ -45,32 +65,4 @@ p {
 a {
     color: var(--link-color);
     text-decoration: none;
-}
-
-h1 {
-    font-size: 2rem;
-}
-
-h2 {
-    font-size: 1.4rem;
-}
-
-h1,
-h2 {
-    text-align: center;
-}
-
-.button {
-    padding: .5rem 2rem;
-    background-color: var(--surface);
-    border-radius: var(--round-sm);
-    letter-spacing: 1px;
-    font-weight: bold;
-    text-transform: uppercase;
-    box-shadow: var(--shadow);
-
-    &.big {
-        padding-block: var(--space-lg);
-        align-self: center;
-    }
 }

@@ -32,16 +32,6 @@ class Store {
   }
 }
 
-export class Result {
-  readonly message: string
-
-  constructor(message: string) {
-    this.message = message
-  }
-}
-export class CorrectResult extends Result {}
-export class WrongResult extends Result {}
-
 export default class Game {
   private readonly codes: string[] = [
     'gjxzst', 'mrtsjm', 'cwonnz',
@@ -58,6 +48,10 @@ export default class Game {
     'Hádanka 7',
     'Hádanka 8',
     'Hádanka 9',
+  ]
+  private readonly compliments: string[] = [
+    'Krásná práce 👍', 'Podařilo se Ti to 😘',
+    'Jen tak dál ❤️', 'Jsi prostě úžasná 🥰',
   ]
   private store: Store
 
@@ -83,16 +77,14 @@ export default class Game {
     return this.riddles[this.foundCodes] ?? null
   }
 
-  validateCode(code: string): Result {
-    if (!this.codes.includes(code)) {
-      return new WrongResult('To není správný kód')
-    }
-    if (this.store.has(code)) {
-      return new WrongResult('Tenhle už jsi našla')
-    }
+  validateCode(code: string): string {
+    if (!this.codes.includes(code)) return 'To není správný kód 😱'
+    if (!this.store.has(code)) this.store.add(code)
+    return this.getCompliment()
+  }
 
-    this.store.add(code)
-
-    return new CorrectResult('Výborná práce')
+  private getCompliment(): string {
+    const key = Math.floor(Math.random() * this.compliments.length)
+    return this.compliments[key]
   }
 }

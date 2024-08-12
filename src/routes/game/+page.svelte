@@ -1,32 +1,36 @@
 <script lang="ts">
-  import {base} from '$app/paths'
   import Game from '$lib/game.svelte'
   import Card from '@/Card.svelte'
+  import Link from '@/Link.svelte'
 
   const game = new Game()
 </script>
 
 <Card>
-  {#if game.foundCodes < game.maxCodes}
+  <h1>
     {#if game.foundCodes === 0}
-      <h1>Zatím jsi nic nenašla</h1>
-      <p>První hádanka zní:</p>
+      Zatím jsi nic nenašla
+    {:else if game.foundCodes === game.maxCodes}
+      Už jen poslední krok
     {:else}
-      <h1>Našla jsi {game.foundCodes} {game.foundCodesWord}</h1>
-      <p>Další hádanka zní:</p>
+      Našla jsi {game.foundCodes} {game.foundCodesWord}
     {/if}
-    <p>{game.riddle}</p>
-  {:else}
-    <h1>Už jen poslední krok</h1>
-    <p>Poskládej všechny krabičky tak, aby vytvořili QR kód. Odhalí Ti, kde je ukrytý poklad.</p>
-  {/if}
+  </h1>
 </Card>
 
-<a href="{base}/scanner" class="button">OSKENUJ KÓD</a>
+{#if game.foundCodes < game.maxCodes}
+  <Card>
+    <h2>
+      {#if game.foundCodes === 0}
+        První hádanka
+      {:else}
+        Další hádanka
+      {/if}
+    </h2>
+    <p>{game.riddle}</p>
+  </Card>
+{/if}
 
-<style>
-  .button {
-    padding: var(--space-lg);
-    align-self: center;
-  }
-</style>
+<Link page="scanner">oskenuj kód</Link>
+
+<style></style>

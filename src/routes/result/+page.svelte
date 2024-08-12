@@ -1,10 +1,10 @@
 <script lang="ts">
-  import {base} from '$app/paths'
-  import Game, {Result} from '$lib/game.svelte'
+  import Game from '$lib/game.svelte'
   import Card from '@/Card.svelte'
+  import Link from '@/Link.svelte'
 
   const game = new Game()
-  let result: Result|null = $state(null)
+  let result: string | null = $state(null)
 
   $effect(() => {
     const code = new URLSearchParams(window.location.search).get('code')
@@ -16,8 +16,8 @@
 </script>
 
 <Card>
-  <h1>{result?.message ?? 'Tady bys neměla být'}</h1>
-  <a href="{base}/game" class="button big">POKRAČUJ V HLEDÁNÍ</a>
+  <h1>{result ?? 'Tady bys neměla být 🫣'}</h1>
 </Card>
+<Link page="game">pokračuj v hledání</Link>
 
 <style></style>

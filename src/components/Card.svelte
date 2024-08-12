@@ -1,13 +1,13 @@
 <script lang="ts">
-  let {children, ...rest} = $props()
+  let {children, hero, ...rest} = $props()
 </script>
 
-<div class="card" {...rest}>
+<section class:hero {...rest}>
   {@render children()}
-</div>
+</section>
 
 <style>
-  .card {
+  section {
     display: flex;
     flex-direction: column;
     gap: var(--space);
@@ -15,5 +15,10 @@
     border-radius: var(--round);
     padding: var(--space);
     box-shadow: var(--shadow);
+  }
+
+  .hero {
+    font-size: var(--text-lg);
+    text-align: center;
   }
 </style>

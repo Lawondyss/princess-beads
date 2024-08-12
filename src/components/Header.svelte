@@ -13,7 +13,7 @@
     background-color: var(--surface);
     box-shadow: var(--shadow);
     padding: var(--space-sm);
-    font-size: var(--text-lg);
+    font-size: var(--text-xl);
     font-weight: bold;
   }
 </style>
