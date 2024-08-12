@@ -88,7 +88,7 @@ export default class Game {
       return new WrongResult('To není správný kód')
     }
     if (this.store.has(code)) {
-      return new WrongResult('Tenhle kód už jsi našla')
+      return new WrongResult('Tenhle už jsi našla')
     }
 
     this.store.add(code)
