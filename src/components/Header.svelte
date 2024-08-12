@@ -1,7 +1,9 @@
-<script lang="ts"></script>
+<script lang="ts">
+  import {base} from '$app/paths'
+</script>
 
 <header>
-  <div class="logo"><a href="/">Princezničky korále</a></div>
+  <a href={base}>Princezničky korále</a>
 </header>
 
 <style>
@@ -11,10 +13,7 @@
     background-color: var(--surface);
     box-shadow: var(--shadow);
     padding: var(--space-sm);
-
-    .logo {
-      font-size: var(--text-lg);
-      font-weight: bold;
-    }
+    font-size: var(--text-lg);
+    font-weight: bold;
   }
 </style>
