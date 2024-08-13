@@ -2,6 +2,7 @@
     font-family: "Ysabeau Infant";
     src: url("/YsabeauInfant.ttf") format("truetype");
 }
+
 @font-face {
     font-family: Recursive;
     src: url("/Recursive.ttf") format("truetype");
@@ -16,7 +17,7 @@
     --link-color: #f76707;
     --text-color: #f59f00;
     --text-xl: 2rem;
-    --text-lg: 1.4rem;
+    --text-lg: 1.3rem;
     --space-sm: .6rem;
     --space: 1rem;
     --space-lg: 1.4rem;
@@ -51,11 +52,11 @@ h2 {
 }
 
 h1 {
-    font-size: 1.8rem;
+    font-size: 2rem;
 }
 
 h2 {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
 }
 
 p {
@@ -65,4 +66,19 @@ p {
 a {
     color: var(--link-color);
     text-decoration: none;
+}
+
+.button {
+    background-color: var(--surface);
+    border: none;
+    border-radius: var(--round-sm);
+    padding: var(--space-lg);
+    letter-spacing: 1px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--link-color);
+    text-transform: uppercase;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    align-self: center;
 }

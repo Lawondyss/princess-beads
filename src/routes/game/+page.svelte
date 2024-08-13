@@ -11,15 +11,15 @@
     {#if game.foundCodes === 0}
       Zatím jsi nic nenašla
     {:else if game.foundCodes === game.maxCodes}
-      Už jen poslední krok
+      Našla jsi všechny kódy
     {:else}
       Našla jsi {game.foundCodes} {game.foundCodesWord}
     {/if}
   </h1>
 </Card>
 
-{#if game.foundCodes < game.maxCodes}
-  <Card>
+<Card>
+  {#if game.foundCodes < game.maxCodes}
     <h2>
       {#if game.foundCodes === 0}
         První hádanka
@@ -27,9 +27,12 @@
         Další hádanka
       {/if}
     </h2>
-    <p>{game.riddle}</p>
-  </Card>
-{/if}
+    <p>{@html game.riddle}</p>
+  {:else}
+    <h2>Jsi už jen krůček od pokladu</h2>
+    <p>{@html game.finalMessage}</p>
+  {/if}
+</Card>
 
 <Link page="scanner">oskenuj kód</Link>
 

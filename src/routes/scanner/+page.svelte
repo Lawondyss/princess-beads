@@ -1,7 +1,6 @@
 <script lang="ts">
   import jsQR from 'jsqr'
-  import {base} from '$app/paths'
-  import {goto} from '$app/navigation'
+  import {goTo} from '$lib/game.svelte'
 
   let loading: boolean = $state(true)
   let error: string | null = $state(null)
@@ -54,7 +53,7 @@
         const code = jsQR(imgData.data, imgData.width, imgData.height, {inversionAttempts: 'dontInvert'})
 
         if (code) {
-          goto(`${base}/result?code=${code.data.trim()}`)
+          goTo.result(code.data.trim())
           return
         }
       }
@@ -84,22 +83,24 @@
     margin: auto;
 
     &:not(.loading):before, &:not(.loading):after {
-    border-radius: calc(infinity * 1px);
+      --perimetr: 2px;
+      border-radius: calc(infinity * 1px);
       content: '';
       position: absolute;
-      inset: -1px;
+      inset: calc(var(--perimetr) * -1);
       background: linear-gradient(0deg, #fb0094, #00ff00, #ffff00, #ff0000, #fb0094, #00ff00, #ffff00, #ff0000);
       background-size: 400%;
-      width: calc(100% + 2px);
-      height: calc(100% + 2px);
+      width: calc(100% + var(--perimetr) * 2);
+      height: calc(100% + var(--perimetr) * 2);
       z-index: -1;
-      animation: spin 5s linear infinite;
+      animation: spin 3s linear infinite;
     }
 
     &:after {
       filter: blur(20px);
     }
   }
+
   @keyframes spin {
     100% {
       transform: rotateZ(360deg);

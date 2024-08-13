@@ -1,66 +1,95 @@
-import { browser } from '$app/environment'
+import * as env from '$env/static/public'
+import {browser} from '$app/environment'
+import {goto} from '$app/navigation'
+import {base} from '$app/paths'
 
-class Store {
-  private readonly values: string[] = $state([])
-  private readonly key: string = 'beads'
+class Store<T> {
+  private readonly key: string
+  value: T = $state<T>() as T
 
-  constructor() {
+  constructor(key: string, value: any) {
+    this.key = key
+    this.value = value
+
     if (browser) {
       const item = localStorage.getItem(this.key)
-      if (item) this.values = JSON.parse(item)
+      if (item) this.value = JSON.parse(item)
     }
 
-    $effect(() => {
-      localStorage.setItem(this.key, JSON.stringify(this.values))
-    });
+    $effect(() => localStorage.setItem(this.key, JSON.stringify(this.value)))
+  }
+}
+
+class CodesStore extends Store<string[]> {
+  constructor() {
+    super('codes', [])
   }
 
-  has(value: string|null): boolean {
-    return value
-      ? this.values.includes(value)
+  has(code: string | null): boolean {
+    return code
+      ? this.value.includes(code)
       : false
   }
 
-  add(value: string|null): void {
-    if (!value) return
+  add(code: string | null): void {
+    if (!code) return
 
-    this.values.includes(value) || this.values.push(value)
+    this.value.includes(code) || this.value.push(code)
   }
 
-  getAll(): string[] {
-    return [...this.values]
+  all(): string[] {
+    return [...this.value]
+  }
+
+  clear(): void {
+    this.value.length = 0
   }
 }
 
 export default class Game {
-  private readonly codes: string[] = [
-    'gjxzst', 'mrtsjm', 'cwonnz',
-    'mtejwz', 'imxsix', 'ndxmmt',
-    'zekzbv', 'gprzyu', 'bcqswm',
-  ]
-  private readonly riddles: string[] = [
-    'Hádanka 1',
-    'Hádanka 2',
-    'Hádanka 3',
-    'Hádanka 4',
-    'Hádanka 5',
-    'Hádanka 6',
-    'Hádanka 7',
-    'Hádanka 8',
-    'Hádanka 9',
-  ]
-  private readonly compliments: string[] = [
-    'Krásná práce 👍', 'Podařilo se Ti to 😘',
-    'Jen tak dál ❤️', 'Jsi prostě úžasná 🥰',
-  ]
-  private store: Store
+  private readonly codesStore: CodesStore
+  private readonly foundTreasure: Store<boolean>
+  private readonly compliments: string[]
+  private readonly final: { code: string, msg: string }
+  private readonly codes: string[] = []
+  private readonly riddles: string[] = []
 
   constructor() {
-    this.store = new Store()
+    this.codesStore = new CodesStore()
+    this.foundTreasure = new Store<boolean>('treasure', false)
+    this.compliments = env.PUBLIC_COMPLIMENTS.split(':')
+
+    const [code, msg] = env.PUBLIC_FINAL_STEP.split(':')
+    this.final = {code, msg}
+
+    for (const name in env) {
+      if (!name.startsWith('PUBLIC_STEP_')) continue
+
+      // @ts-ignore
+      const value = env[name]
+      if (typeof value !== 'string' || !value.includes(':')) continue
+
+      const [code, riddle] = value.split(':')
+      this.codes.push(code)
+      this.riddles.push(riddle)
+    }
+
+    if (browser) {
+      const item = localStorage.getItem('treasure')
+      if (item) this.foundTreasure.value = JSON.parse(item)
+    }
+
+    $effect(() => {
+      localStorage.setItem('treasure', JSON.stringify(this.foundTreasure.value))
+    });
+  }
+
+  get hasTreasure(): boolean {
+    return this.foundTreasure.value
   }
 
   get foundCodes(): number {
-    return this.store.getAll().length
+    return this.codesStore.all().length
   }
 
   get foundCodesWord(): string {
@@ -73,18 +102,51 @@ export default class Game {
     return this.codes.length
   }
 
-  get riddle(): string|null {
-    return this.riddles[this.foundCodes] ?? null
+  get riddle(): string | null {
+    return this.riddles[this.foundCodes]?.replaceAll('\n', '<br>') ?? null
+  }
+
+  get finalMessage(): string {
+    return this.final.msg
   }
 
   validateCode(code: string): string {
-    if (!this.codes.includes(code)) return 'To není správný kód 😱'
-    if (!this.store.has(code)) this.store.add(code)
+    if (code === this.final.code) {
+      if (this.foundCodes !== this.maxCodes) {
+        return 'Nepodváděj! 👮‍♂️'
+      }
+
+      this.foundTreasure.value = true
+      goTo.treasure()
+    }
+
+    if (!this.codes.includes(code)) {
+      return 'To není správný kód 😱'
+    }
+
+    if (!this.codesStore.has(code)) {
+      this.codesStore.add(code)
+    }
+
     return this.getCompliment()
+  }
+
+  reset(): void {
+    this.codesStore.clear()
+    this.foundTreasure.value = false
   }
 
   private getCompliment(): string {
     const key = Math.floor(Math.random() * this.compliments.length)
     return this.compliments[key]
   }
+}
+
+export const goTo = {
+  homepage: (): Promise<void> => goto(`${base}/`),
+  game: (): Promise<void> => goto(`${base}/game`),
+  reset: (): Promise<void> => goto(`${base}/reset`),
+  result: (code: string): Promise<void> => goto(`${base}/result?code=${encodeURI(code)}`),
+  scanner: (): Promise<void> => goto(`${base}/scanner`),
+  treasure: (): Promise<void> => goto(`${base}/treasure`),
 }

@@ -1,5 +1,11 @@
 <script lang="ts">
-  let {children, hero, ...rest} = $props()
+  import type {Snippet} from 'svelte'
+
+  interface Params {
+    children: Snippet,
+    hero?: boolean,
+  }
+  let {children, hero, ...rest}: Params = $props()
 </script>
 
 <section class:hero {...rest}>
