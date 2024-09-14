@@ -15,4 +15,3 @@ Naskenováním závěrečného kódu se zobrazí zpráva s pokladem.
 Hádanky a další nastavení jsou vysvětlena v `.env.example`, který lze použít jako šablonu pro lokální `.env`.
 
 Deploy v GitHub Actions používá environment variables nastavené v projektu pod `github-pages`.
-
